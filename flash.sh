@@ -77,6 +77,9 @@ function install_alarm_on_device() {
     bsdtar -xpf "${alarm_rootfs_tgz}" -C "${mount_target}"
     sync
 
+    # Prepare for installation to eMMC
+    cp "${BASH_SOURCE[0]}" "${alarm_rootfs_tgz}" "${mount_target}/root/"
+
     # Install the U-Boot bootloader
     dd if="${mount_target}/boot/MLO" of="${sd_dev}" count=1 seek=1 conv=notrunc bs=128k
     dd if="${mount_target}/boot/u-boot.img" of="${sd_dev}" count=2 seek=1 conv=notrunc bs=384k
